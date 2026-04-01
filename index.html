@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReconEthereal — Cybersecurity Intelligence Hub</title>
+  <meta name="description" content="Research, walkthroughs, guides, and tools for cybersecurity professionals and learners." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================
+       CSS CUSTOM PROPERTIES
+    ============================================ */
+    :root {
+      --bg-base:      #070b12;
+      --bg-surface:   #0c1221;
+      --bg-card:      #0f1829;
+      --bg-elevated:  #131e33;
+      --border:       rgba(0, 229, 255, 0.10);
+      --border-hover: rgba(0, 229, 255, 0.30);
+      --accent-cyan:  #00e5ff;
+      --accent-teal:  #00bfa5;
+      --accent-purple:#8b5cf6;
+      --accent-green: #00e676;
+      --text-primary: #dce8f5;
+      --text-secondary:#7a9abf;
+      --text-muted:   #3d5470;
+      --font-display: 'Exo 2', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+      --transition:   0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --radius:       6px;
+      --glow-cyan:    0 0 20px rgba(0, 229, 255, 0.25);
+      --glow-purple:  0 0 20px rgba(139, 92, 246, 0.25);
+    }
+
+    [data-theme="light"] {
+      --bg-base:      #f0f4f8;
+      --bg-surface:   #e4ecf5;
+      --bg-card:      #ffffff;
+      --bg-elevated:  #f8fafc;
+      --border:       rgba(0, 100, 140, 0.12);
+      --border-hover: rgba(0, 180, 200, 0.40);
+      --text-primary: #0f1c2e;
+      --text-secondary:#2d4a6a;
+      --text-muted:   #6b8aaa;
+      --glow-cyan:    0 2px 16px rgba(0, 180, 200, 0.15);
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-base);
+      overflow-x: hidden;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    a { color: var(--accent-cyan); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: #fff; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ============================================
+       BACKGROUND GRID EFFECT
+    ============================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 40%, transparent 100%);
+    }
+
+    [data-theme="light"] body::before {
+      background-image:
+        linear-gradient(rgba(0,100,180,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,100,180,0.04) 1px, transparent 1px);
+    }
+
+    /* ============================================
+       HEADER / NAV
+    ============================================ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(7, 11, 18, 0.85);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition);
+    }
+
+    [data-theme="light"] .site-header {
+      background: rgba(240, 244, 248, 0.90);
+    }
+
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid var(--accent-cyan);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .logo-icon svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--accent-cyan);
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .logo-text span {
+      color: var(--accent-cyan);
+    }
+
+    /* Primary Nav */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      list-style: none;
+      flex: 1;
+    }
+
+    .nav-links a {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--accent-cyan);
+      background: rgba(0, 229, 255, 0.06);
+    }
+
+    .nav-links .has-dropdown {
+      position: relative;
+    }
+
+    .nav-links .has-dropdown > a::after {
+      content: '▾';
+      font-size: 0.65rem;
+      margin-left: 0.3rem;
+      opacity: 0.6;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      min-width: 200px;
+      padding: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4), var(--glow-cyan);
+      animation: dropIn 0.15s ease;
+    }
+
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .has-dropdown:hover .dropdown { display: block; }
+
+    .dropdown a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 0.8rem;
+      font-size: 0.83rem;
+      border-radius: 4px;
+      color: var(--text-secondary);
+    }
+
+    .dropdown a .d-icon {
+      width: 16px;
+      height: 16px;
+      opacity: 0.6;
+    }
+
+    .dropdown a:hover {
+      color: var(--accent-cyan);
+      background: rgba(0, 229, 255, 0.06);
+    }
+
+    /* Nav Controls */
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    /* Search trigger */
+    .search-trigger {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.4rem 0.75rem;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: all var(--transition);
+      min-width: 180px;
+    }
+
+    .search-trigger:hover {
+      border-color: var(--border-hover);
+      color: var(--text-secondary);
+    }
+
+    .search-trigger .search-icon {
+      width: 13px;
+      height: 13px;
+    }
+
+    .search-trigger .kbd {
+      margin-left: auto;
+      font-size: 0.68rem;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      padding: 0.1rem 0.3rem;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Theme toggle */
+    .theme-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+    }
+
+    .theme-btn:hover {
+      border-color: var(--border-hover);
+      color: var(--accent-cyan);
+    }
+
+    .theme-btn svg { width: 16px; height: 16px; }
+
+    /* Hamburger */
+    .menu-btn {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .menu-btn span {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--text-secondary);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+
+    /* ============================================
+       SEARCH OVERLAY
+    ============================================ */
+    .search-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(7, 11, 18, 0.92);
+      backdrop-filter: blur(8px);
+      padding: 10vh 2rem 2rem;
+    }
+
+    .search-overlay.open { display: flex; flex-direction: column; align-items: center; }
+
+    .search-box {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 8px;
+      padding: 0.9rem 1.2rem;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .search-input-wrap svg { width: 18px; height: 18px; color: var(--accent-cyan); flex-shrink: 0; }
+
+    #search-input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--text-primary);
+      caret-color: var(--accent-cyan);
+    }
+
+    .search-close {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .search-results {
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .search-result-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.9rem 1.2rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .search-result-item:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-elevated);
+    }
+
+    .sr-cat {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.2rem;
+    }
+
+    .sr-title { font-weight: 500; font-size: 0.95rem; color: var(--text-primary); }
+    .sr-desc { font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+    .search-hint {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 2rem 5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0,229,255,0.2);
+      border-radius: 100px;
+      padding: 0.3rem 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,230,118,0.4); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 5px rgba(0,230,118,0); }
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 .brand {
+      display: block;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      padding: 0.7rem 1.5rem;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent-cyan);
+      color: #07101a;
+      box-shadow: 0 0 20px rgba(0,229,255,0.3);
+    }
+
+    .btn-primary:hover {
+      color: #000;
+      box-shadow: 0 0 32px rgba(0,229,255,0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border-hover);
+      color: var(--text-secondary);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0,229,255,0.04);
+    }
+
+    /* Hero terminal */
+    .hero-terminal {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), var(--glow-cyan);
+      position: relative;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .t-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .t-dot.r { background: #ff5f56; }
+    .t-dot.y { background: #ffbd2e; }
+    .t-dot.g { background: #27c93f; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin: 0 auto;
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.8;
+    }
+
+    .t-line { display: flex; align-items: flex-start; gap: 0.6rem; }
+    .t-prompt { color: var(--accent-green); flex-shrink: 0; }
+    .t-cmd { color: var(--text-primary); }
+    .t-out { color: var(--text-secondary); padding-left: 1.4rem; }
+    .t-cyan { color: var(--accent-cyan); }
+    .t-purple { color: var(--accent-purple); }
+    .t-green { color: var(--accent-green); }
+    .t-blank { height: 0.5rem; }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--accent-cyan);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 1.2s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ============================================
+       STAT BAR
+    ============================================ */
+    .stat-bar {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,229,255,0.02);
+    }
+
+    .stat-bar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      padding: 1.5rem 2rem;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================
+       SECTION LAYOUT
+    ============================================ */
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 2rem;
+    }
+
+    .section-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .section-link {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color var(--transition);
+      white-space: nowrap;
+    }
+
+    .section-link:hover { color: var(--accent-cyan); }
+    .section-link .arrow { font-size: 1rem; }
+
+    /* ============================================
+       CARDS — FEATURED POSTS
+    ============================================ */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .post-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .post-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), var(--glow-cyan);
+    }
+
+    .card-accent {
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+    }
+
+    .card-accent.green {
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-teal));
+    }
+
+    .card-accent.purple {
+      background: linear-gradient(90deg, var(--accent-purple), #ec4899);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.5px;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .tag-cyan   { background: rgba(0,229,255,0.1); color: var(--accent-cyan); border: 1px solid rgba(0,229,255,0.2); }
+    .tag-green  { background: rgba(0,230,118,0.1); color: var(--accent-green); border: 1px solid rgba(0,230,118,0.2); }
+    .tag-purple { background: rgba(139,92,246,0.1); color: var(--accent-purple); border: 1px solid rgba(139,92,246,0.2); }
+    .tag-teal   { background: rgba(0,191,165,0.1); color: var(--accent-teal); border: 1px solid rgba(0,191,165,0.2); }
+    .tag-red    { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+      transition: color var(--transition);
+    }
+
+    .post-card:hover .card-title { color: var(--accent-cyan); }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      flex: 1;
+      line-height: 1.7;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .card-meta { display: flex; align-items: center; gap: 1rem; }
+
+    .diff-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .diff-easy   { background: rgba(0,230,118,0.12); color: var(--accent-green); }
+    .diff-medium { background: rgba(255,189,46,0.12); color: #ffbd2e; }
+    .diff-hard   { background: rgba(239,68,68,0.12); color: #ef4444; }
+
+    /* ============================================
+       SECTION DIVIDER
+    ============================================ */
+    .divider {
+      position: relative;
+      z-index: 1;
+      height: 1px;
+      max-width: 1280px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ============================================
+       QUICK ACCESS TILES
+    ============================================ */
+    .tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem 1.5rem;
+      transition: all var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .tile::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .tile.cyan::before   { background: radial-gradient(ellipse at top left, rgba(0,229,255,0.06), transparent 60%); }
+    .tile.green::before  { background: radial-gradient(ellipse at top left, rgba(0,230,118,0.06), transparent 60%); }
+    .tile.purple::before { background: radial-gradient(ellipse at top left, rgba(139,92,246,0.06), transparent 60%); }
+    .tile.teal::before   { background: radial-gradient(ellipse at top left, rgba(0,191,165,0.06), transparent 60%); }
+
+    .tile:hover::before  { opacity: 1; }
+
+    .tile:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .tile-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tile.cyan   .tile-icon { background: rgba(0,229,255,0.1); color: var(--accent-cyan); }
+    .tile.green  .tile-icon { background: rgba(0,230,118,0.1); color: var(--accent-green); }
+    .tile.purple .tile-icon { background: rgba(139,92,246,0.1); color: var(--accent-purple); }
+    .tile.teal   .tile-icon { background: rgba(0,191,165,0.1); color: var(--accent-teal); }
+
+    .tile-icon svg { width: 22px; height: 22px; }
+
+    .tile-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .tile-count {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .tile-arrow {
+      margin-top: auto;
+      font-size: 1.1rem;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all var(--transition);
+    }
+
+    .tile.cyan   .tile-arrow { color: var(--accent-cyan); }
+    .tile.green  .tile-arrow { color: var(--accent-green); }
+    .tile.purple .tile-arrow { color: var(--accent-purple); }
+    .tile.teal   .tile-arrow { color: var(--accent-teal); }
+
+    .tile:hover .tile-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ============================================
+       TOOLS SECTION
+    ============================================ */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .tool-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all var(--transition);
+      cursor: pointer;
+    }
+
+    .tool-card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-elevated);
+    }
+
+    .tool-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+    }
+
+    .tool-info { flex: 1; min-width: 0; }
+    .tool-name { font-weight: 500; font-size: 0.9rem; color: var(--text-primary); }
+    .tool-cat  { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+    .tool-badge {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .badge-recon { background: rgba(0,229,255,0.1); color: var(--accent-cyan); }
+    .badge-web   { background: rgba(139,92,246,0.1); color: var(--accent-purple); }
+    .badge-priv  { background: rgba(239,68,68,0.1); color: #ef4444; }
+    .badge-ad    { background: rgba(255,189,46,0.1); color: #ffbd2e; }
+    .badge-pass  { background: rgba(0,191,165,0.1); color: var(--accent-teal); }
+
+    /* ============================================
+       NEWSLETTER / CTA BAND
+    ============================================ */
+    .cta-band {
+      position: relative;
+      z-index: 1;
+      margin: 0 2rem;
+      border-radius: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .cta-band::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 100% at 80% 50%, rgba(0,229,255,0.06) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 80% at 20% 50%, rgba(139,92,246,0.04) 0%, transparent 70%);
+    }
+
+    .cta-inner {
+      position: relative;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 3rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .cta-label { color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .cta-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .cta-desc  { color: var(--text-secondary); font-size: 0.9rem; }
+
+    .cta-form { display: flex; gap: 0.75rem; }
+    .cta-form input {
+      flex: 1;
+      min-width: 220px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .cta-form input:focus { border-color: var(--accent-cyan); }
+    .cta-form input::placeholder { color: var(--text-muted); }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 5rem;
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 4rem;
+    }
+
+    .footer-brand .logo-text {
+      font-size: 1.3rem;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .social-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all var(--transition);
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .social-btn:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0,229,255,0.06);
+    }
+
+    .footer-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .footer-col a {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+    }
+
+    .footer-col a:hover { color: var(--accent-cyan); }
+
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .footer-bottom a { color: var(--text-muted); }
+    .footer-bottom a:hover { color: var(--accent-cyan); }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    /* ============================================
+       MOBILE NAV DRAWER
+    ============================================ */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+    }
+
+    .mobile-nav.open { display: block; }
+
+    .mobile-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+    }
+
+    .mobile-drawer {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 300px;
+      background: var(--bg-surface);
+      border-left: 1px solid var(--border);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      overflow-y: auto;
+    }
+
+    .mobile-close {
+      align-self: flex-end;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 0.4rem 0.7rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .mobile-nav-link {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 0.7rem 0.75rem;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .mobile-nav-link:hover {
+      color: var(--accent-cyan);
+      background: rgba(0,229,255,0.05);
+      border-color: rgba(0,229,255,0.1);
+    }
+
+    .mobile-sub {
+      font-size: 0.8rem;
+      padding-left: 1.5rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1100px) {
+      .tiles-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-nav-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-terminal { display: none; }
+      .posts-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat-item:nth-child(2n) { }
+      .tools-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      .search-trigger { display: none; }
+      .menu-btn { display: flex; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-nav-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-inner { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .posts-grid { grid-template-columns: 1fr; }
+      .tiles-grid { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .hero { padding: 3.5rem 2rem 3rem; }
+      .section { padding: 3rem 1.5rem; }
+      .footer-nav-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+      .cta-form { flex-direction: column; }
+      .cta-band { margin: 0 1rem; }
+    }
+
+    /* ============================================
+       SCROLL ANIMATIONS
+    ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* stagger children */
+    .stagger > * { transition-delay: calc(var(--i, 0) * 80ms); }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       SEARCH OVERLAY
+  ============================================ -->
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Site search">
+    <div class="search-box">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="search-input" placeholder="Search articles, tools, writeups…" autocomplete="off" spellcheck="false" />
+        <button class="search-close" onclick="closeSearch()">ESC</button>
+      </div>
+      <div class="search-results" id="search-results"></div>
+      <p class="search-hint">↑↓ navigate &nbsp;·&nbsp; ↵ open &nbsp;·&nbsp; esc close</p>
+    </div>
+  </div>
+
+  <!-- ============================================
+       MOBILE NAV
+  ============================================ -->
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-overlay" onclick="closeMobileNav()"></div>
+    <div class="mobile-drawer">
+      <button class="mobile-close" onclick="closeMobileNav()">✕ Close</button>
+      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="research.html" class="mobile-nav-link">Research & Reports</a>
+      <a href="labs.html" class="mobile-nav-link">Labs & Challenges</a>
+      <a href="labs-htb.html" class="mobile-nav-link mobile-sub">→ Hack The Box</a>
+      <a href="labs-thm.html" class="mobile-nav-link mobile-sub">→ TryHackMe</a>
+      <a href="labs-ctf.html" class="mobile-nav-link mobile-sub">→ CTF Archives</a>
+      <a href="guides.html" class="mobile-nav-link">Guides & Training</a>
+      <a href="guides-offensive.html" class="mobile-nav-link mobile-sub">→ Offensive Security</a>
+      <a href="guides-defensive.html" class="mobile-nav-link mobile-sub">→ Defensive Security</a>
+      <a href="tools.html" class="mobile-nav-link">Tools & Resources</a>
+      <a href="about.html" class="mobile-nav-link">About</a>
+      <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </div>
+  </div>
+
+  <!-- ============================================
+       HEADER
+  ============================================ -->
+  <header class="site-header">
+    <nav class="nav-inner">
+      <!-- Logo -->
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="logo-text">Recon<span>Ethereal</span></div>
+      </a>
+
+      <!-- Desktop nav links -->
+      <ul class="nav-links">
+        <li><a href="research.html">Research</a></li>
+
+        <li class="has-dropdown">
+          <a href="labs.html">Labs</a>
+          <div class="dropdown">
+            <a href="labs-htb.html">
+              <svg class="d-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              Hack The Box
+            </a>
+            <a href="labs-thm.html">
+              <svg class="d-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              TryHackMe
+            </a>
+            <a href="labs-ctf.html">
+              <svg class="d-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+              CTF Archives
+            </a>
+          </div>
+        </li>
+
+        <li class="has-dropdown">
+          <a href="guides.html">Guides</a>
+          <div class="dropdown">
+            <a href="guides-offensive.html">
+              <svg class="d-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.73 3.49a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Offensive Security
+            </a>
+            <a href="guides-defensive.html">
+              <svg class="d-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Defensive Security
+            </a>
+          </div>
+        </li>
+
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <!-- Controls -->
+      <div class="nav-controls">
+        <button class="search-trigger" onclick="openSearch()" aria-label="Open search">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search…
+          <span class="kbd">Ctrl K</span>
+        </button>
+
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </button>
+
+        <button class="menu-btn" onclick="openMobileNav()" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================================
+       HERO
+  ============================================ -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        Cybersecurity Intelligence Hub
+      </div>
+
+      <h1>
+        Intelligence for the<br>
+        <span class="brand">Modern Attacker</span>
+      </h1>
+
+      <p class="hero-desc">
+        Research, walkthroughs, guides, and curated tools for cybersecurity professionals, students, and CTF players. From recon to exploit — all in one place.
+      </p>
+
+      <div class="hero-actions">
+        <a href="research.html" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Explore Research
+        </a>
+        <a href="labs.html" class="btn btn-ghost">View Walkthroughs</a>
+      </div>
+    </div>
+
+    <!-- Terminal window -->
+    <div class="hero-terminal">
+      <div class="terminal-bar">
+        <span class="t-dot r"></span>
+        <span class="t-dot y"></span>
+        <span class="t-dot g"></span>
+        <span class="terminal-title">reconethereal — bash</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-prompt">➜</span><span class="t-cmd t-cyan">whoami</span></div>
+        <div class="t-out t-green">reconethereal</div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-prompt">➜</span><span class="t-cmd t-cyan">ls ./topics</span></div>
+        <div class="t-out"><span class="t-purple">research/</span> &nbsp;<span class="t-teal">labs/</span> &nbsp;<span class="t-cyan">guides/</span></div>
+        <div class="t-out"><span class="t-green">tools/</span> &nbsp; ctf-archives/</div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-prompt">➜</span><span class="t-cmd t-cyan">cat mission.txt</span></div>
+        <div class="t-out">Sharing knowledge in offensive &amp;</div>
+        <div class="t-out">defensive security. One post at</div>
+        <div class="t-out">a time. <span class="t-green">No gatekeeping.</span></div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-prompt">➜</span><span class="t-cmd"><span class="cursor"></span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STAT BAR
+  ============================================ -->
+  <div class="stat-bar">
+    <div class="stat-bar-inner">
+      <div class="stat-item">
+        <div class="stat-number">48+</div>
+        <div class="stat-label">Articles & Reports</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">32+</div>
+        <div class="stat-label">Lab Walkthroughs</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">120+</div>
+        <div class="stat-label">Curated Tools</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">CTF Write-ups</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       FEATURED RESEARCH
+  ============================================ -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-label">Latest Intelligence</div>
+          <h2 class="section-title">Research & Reports</h2>
+        </div>
+        <a href="research.html" class="section-link">All articles <span class="arrow">→</span></a>
+      </div>
+
+      <div class="posts-grid stagger reveal">
+        <!-- Card 1 -->
+        <article class="post-card" style="--i:0">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag tag-cyan">Active Directory</span>
+              <span class="tag tag-purple">Kerberos</span>
+            </div>
+            <h3 class="card-title">Kerberoasting at Scale: A Deep Dive into SPN Abuse Patterns</h3>
+            <p class="card-desc">How attackers extract service account credentials from AD environments without special privileges, and why most orgs miss the detection signals entirely.</p>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span>Jun 12, 2025</span>
+              <span>9 min read</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="post-card" style="--i:1">
+          <div class="card-accent green"></div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag tag-green">Recon</span>
+              <span class="tag tag-teal">OSINT</span>
+            </div>
+            <h3 class="card-title">Passive Reconnaissance Workflows: Mapping the Attack Surface Before First Contact</h3>
+            <p class="card-desc">Building a comprehensive passive recon framework using Shodan, Censys, FOFA, and certificate transparency logs to enumerate targets safely.</p>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span>May 28, 2025</span>
+              <span>12 min read</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="post-card" style="--i:2">
+          <div class="card-accent purple"></div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag tag-red">CVE Analysis</span>
+              <span class="tag tag-cyan">Web</span>
+            </div>
+            <h3 class="card-title">CVE-2025-1234: Exploiting SSRF to RCE in a Popular Cloud Panel</h3>
+            <p class="card-desc">Full vulnerability walkthrough from SSRF discovery to full Remote Code Execution — including patch bypass techniques and detection recommendations.</p>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span>May 14, 2025</span>
+              <span>15 min read</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       QUICK ACCESS TILES
+  ============================================ -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-label">Navigate the Hub</div>
+          <h2 class="section-title">Browse by Category</h2>
+        </div>
+      </div>
+
+      <div class="tiles-grid stagger reveal">
+        <!-- Labs -->
+        <a href="labs-htb.html" class="tile cyan" style="--i:0">
+          <div class="tile-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div>
+            <div class="tile-name">Hack The Box</div>
+            <div class="tile-count">18 walkthroughs</div>
+          </div>
+          <div class="tile-arrow">→</div>
+        </a>
+
+        <!-- TryHackMe -->
+        <a href="labs-thm.html" class="tile green" style="--i:1">
+          <div class="tile-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div>
+            <div class="tile-name">TryHackMe</div>
+            <div class="tile-count">14 room writeups</div>
+          </div>
+          <div class="tile-arrow">→</div>
+        </a>
+
+        <!-- Offensive Guides -->
+        <a href="guides-offensive.html" class="tile purple" style="--i:2">
+          <div class="tile-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div>
+            <div class="tile-name">Offensive Security</div>
+            <div class="tile-count">12 guides</div>
+          </div>
+          <div class="tile-arrow">→</div>
+        </a>
+
+        <!-- Tools -->
+        <a href="tools.html" class="tile teal" style="--i:3">
+          <div class="tile-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div>
+            <div class="tile-name">Tools & Resources</div>
+            <div class="tile-count">120+ curated entries</div>
+          </div>
+          <div class="tile-arrow">→</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       RECENT LABS
+  ============================================ -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-label">Hands-On Practice</div>
+          <h2 class="section-title">Latest Walkthroughs</h2>
+        </div>
+        <a href="labs.html" class="section-link">All labs <span class="arrow">→</span></a>
+      </div>
+
+      <div class="posts-grid stagger reveal">
+        <article class="post-card" style="--i:0">
+          <div class="card-accent green"></div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag tag-green">HTB</span>
+              <span class="tag tag-cyan">Linux</span>
+            </div>
+            <h3 class="card-title">HTB: Perfection — SQLite Injection via SSTI in Ruby</h3>
+            <p class="card-desc">Chaining Server-Side Template Injection with a SQLite credential dump to reach a restricted user and then leveraging a cron job for root.</p>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span class="diff-badge diff-easy">Easy</span>
+              <span>HTB · Linux</span>
+            </div>
+            <span>Jun 2025</span>
+          </div>
+        </article>
+
+        <article class="post-card" style="--i:1">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag tag-cyan">HTB</span>
+              <span class="tag tag-purple">Windows</span>
+            </div>
+            <h3 class="card-title">HTB: Manager — MSSQL xp_dirtree to AD Certificate Services ESC7</h3>
+            <p class="card-desc">Leveraging MSSQL's xp_dirtree stored procedure to capture NetNTLM hashes, then exploiting a misconfigured AD CS template for domain compromise.</p>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span class="diff-badge diff-medium">Medium</span>
+              <span>HTB · Windows</span>
+            </div>
+            <span>May 2025</span>
+          </div>
+        </article>
+
+        <article class="post-card" style="--i:2">
+          <div class="card-accent purple"></div>
+          <div class="card-body">
+            <div class="card-tags">
+              <span class="tag tag-purple">CTF</span>
+              <span class="tag tag-red">Web</span>
+            </div>
+            <h3 class="card-title">NahamCon 2025: Full Web Chain — Auth Bypass to File Read to RCE</h3>
+            <p class="card-desc">Three-step exploit chain from a JWT none-algorithm bypass, through a path traversal in an API endpoint, to unserialized object code execution.</p>
+          </div>
+          <div class="card-footer">
+            <div class="card-meta">
+              <span class="diff-badge diff-hard">Hard</span>
+              <span>CTF · Web</span>
+            </div>
+            <span>Apr 2025</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================
+       TOOLS SNAPSHOT
+  ============================================ -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-label">Curated Arsenal</div>
+          <h2 class="section-title">Tools & Resources</h2>
+        </div>
+        <a href="tools.html" class="section-link">Full library <span class="arrow">→</span></a>
+      </div>
+
+      <div class="tools-grid stagger reveal">
+        <div class="tool-card" style="--i:0">
+          <div class="tool-logo">NM</div>
+          <div class="tool-info">
+            <div class="tool-name">Nmap</div>
+            <div class="tool-cat">Network scanner & port discovery</div>
+          </div>
+          <span class="tool-badge badge-recon">Recon</span>
+        </div>
+
+        <div class="tool-card" style="--i:1">
+          <div class="tool-logo">BP</div>
+          <div class="tool-info">
+            <div class="tool-name">Burp Suite</div>
+            <div class="tool-cat">Web application security testing</div>
+          </div>
+          <span class="tool-badge badge-web">Web</span>
+        </div>
+
+        <div class="tool-card" style="--i:2">
+          <div class="tool-logo">BH</div>
+          <div class="tool-info">
+            <div class="tool-name">BloodHound</div>
+            <div class="tool-cat">Active Directory attack path mapper</div>
+          </div>
+          <span class="tool-badge badge-ad">AD</span>
+        </div>
+
+        <div class="tool-card" style="--i:3">
+          <div class="tool-logo">LH</div>
+          <div class="tool-info">
+            <div class="tool-name">LinPEAS / WinPEAS</div>
+            <div class="tool-cat">Privilege escalation enumeration</div>
+          </div>
+          <span class="tool-badge badge-priv">PrivEsc</span>
+        </div>
+
+        <div class="tool-card" style="--i:4">
+          <div class="tool-logo">HC</div>
+          <div class="tool-info">
+            <div class="tool-name">Hashcat</div>
+            <div class="tool-cat">GPU-accelerated password cracker</div>
+          </div>
+          <span class="tool-badge badge-pass">Cracking</span>
+        </div>
+
+        <div class="tool-card" style="--i:5">
+          <div class="tool-logo">MS</div>
+          <div class="tool-info">
+            <div class="tool-name">Metasploit Framework</div>
+            <div class="tool-cat">Exploitation & post-exploitation</div>
+          </div>
+          <span class="tool-badge badge-priv">Exploit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CTA BAND
+  ============================================ -->
+  <div class="cta-band reveal">
+    <div class="cta-inner">
+      <div>
+        <div class="cta-label">Stay in the loop</div>
+        <h3 class="cta-title">Get notified on new research</h3>
+        <p class="cta-desc">No spam. Just new walkthroughs, vulnerability analyses, and guide drops — straight to your inbox.</p>
+      </div>
+      <form class="cta-form" onsubmit="handleSubscribe(event)">
+        <input type="email" placeholder="your@email.com" required />
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================
+       FOOTER
+  ============================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo" style="margin-bottom:1rem">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <span class="logo-text">Recon<span>Ethereal</span></span>
+        </a>
+        <p>A cybersecurity knowledge hub focused on research, practical walkthroughs, and curated learning resources for the security community.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" title="GitHub">GH</a>
+          <a href="#" class="social-btn" title="Twitter/X">𝕏</a>
+          <a href="#" class="social-btn" title="LinkedIn">in</a>
+          <a href="#" class="social-btn" title="RSS">RSS</a>
+        </div>
+      </div>
+
+      <div class="footer-nav-grid">
+        <div class="footer-col">
+          <h4>Content</h4>
+          <ul>
+            <li><a href="research.html">Research & Reports</a></li>
+            <li><a href="labs.html">Labs & Challenges</a></li>
+            <li><a href="guides.html">Guides & Training</a></li>
+            <li><a href="tools.html">Tools & Resources</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Labs</h4>
+          <ul>
+            <li><a href="labs-htb.html">Hack The Box</a></li>
+            <li><a href="labs-thm.html">TryHackMe</a></li>
+            <li><a href="labs-ctf.html">CTF Archives</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Guides</h4>
+          <ul>
+            <li><a href="guides-offensive.html">Offensive Security</a></li>
+            <li><a href="guides-defensive.html">Defensive Security</a></li>
+            <li><a href="guides-offensive.html#recon">Recon Techniques</a></li>
+            <li><a href="guides-defensive.html#ir">Incident Response</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Meta</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">RSS Feed</a></li>
+            <li><a href="#">PGP Key</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        reconethereal.com — all systems operational
+      </div>
+      <span>© 2025 ReconEthereal. Content for educational purposes.</span>
+      <a href="#">↑ Back to top</a>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================ -->
+  <script>
+    // ---- Search data (in production, generate this from your static site builder)
+    const SEARCH_DATA = [
+      { title: "Kerberoasting at Scale: SPN Abuse Patterns", cat: "Research", desc: "Deep dive into Kerberos service account credential extraction.", url: "research.html", tags: ["kerberos","active directory","ad"] },
+      { title: "Passive Reconnaissance Workflows", cat: "Research", desc: "Building a passive recon framework using Shodan, Censys and more.", url: "research.html", tags: ["recon","osint","shodan"] },
+      { title: "CVE-2025-1234: SSRF to RCE Analysis", cat: "Research", desc: "Full vulnerability walkthrough from SSRF discovery to RCE.", url: "research.html", tags: ["cve","ssrf","rce","web"] },
+      { title: "HTB: Perfection — SSTI to SQLite", cat: "Hack The Box", desc: "Server-Side Template Injection chained with credential dump.", url: "labs-htb.html", tags: ["htb","linux","ssti","easy"] },
+      { title: "HTB: Manager — MSSQL to AD CS ESC7", cat: "Hack The Box", desc: "MSSQL xp_dirtree abuse to domain compromise via certificate services.", url: "labs-htb.html", tags: ["htb","windows","mssql","ad cs","medium"] },
+      { title: "NahamCon 2025 Full Web Chain", cat: "CTF Archives", desc: "JWT bypass, path traversal, and deserialization RCE chain.", url: "labs-ctf.html", tags: ["ctf","jwt","web","hard"] },
+      { title: "Penetration Testing Methodology Guide", cat: "Offensive Security", desc: "Structured methodology from initial recon to post-exploitation reporting.", url: "guides-offensive.html", tags: ["pentest","methodology","guide"] },
+      { title: "Blue Team Detection Engineering", cat: "Defensive Security", desc: "Building effective detection rules using SIGMA and ELK/Splunk.", url: "guides-defensive.html", tags: ["blue team","siem","detection","elk"] },
+      { title: "Nmap", cat: "Tools", desc: "Network scanner and port discovery tool.", url: "tools.html", tags: ["nmap","recon","scanner"] },
+      { title: "Burp Suite", cat: "Tools", desc: "Web application security testing platform.", url: "tools.html", tags: ["burp","web","proxy"] },
+      { title: "BloodHound", cat: "Tools", desc: "Active Directory attack path visualization.", url: "tools.html", tags: ["bloodhound","ad","active directory"] },
+      { title: "Hashcat", cat: "Tools", desc: "GPU-accelerated password cracking.", url: "tools.html", tags: ["hashcat","cracking","password"] },
+    ];
+
+    function openSearch() {
+      document.getElementById('searchOverlay').classList.add('open');
+      document.getElementById('search-input').focus();
+      renderResults('');
+    }
+
+    function closeSearch() {
+      document.getElementById('searchOverlay').classList.remove('open');
+      document.getElementById('search-input').value = '';
+    }
+
+    function renderResults(query) {
+      const container = document.getElementById('search-results');
+      const q = query.toLowerCase().trim();
+
+      if (!q) {
+        container.innerHTML = '<p style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);padding:1rem 0;">Start typing to search…</p>';
+        return;
+      }
+
+      const results = SEARCH_DATA.filter(item =>
+        item.title.toLowerCase().includes(q) ||
+        item.desc.toLowerCase().includes(q) ||
+        item.tags.some(t => t.includes(q)) ||
+        item.cat.toLowerCase().includes(q)
+      ).slice(0, 6);
+
+      if (!results.length) {
+        container.innerHTML = '<p style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-muted);padding:1rem 0;">No results found for "' + q + '".</p>';
+        return;
+      }
+
+      container.innerHTML = results.map(r => `
+        <div class="search-result-item" onclick="window.location='${r.url}'">
+          <div class="sr-cat">${r.cat}</div>
+          <div class="sr-title">${r.title}</div>
+          <div class="sr-desc">${r.desc}</div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('search-input').addEventListener('input', e => renderResults(e.target.value));
+
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+      if (e.key === 'Escape') closeSearch();
+    });
+
+    // Click outside to close
+    document.getElementById('searchOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeSearch();
+    });
+
+    // ---- Theme toggle
+    const htmlEl = document.documentElement;
+    const themeBtn = document.getElementById('themeBtn');
+    const MOON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+    const SUN_ICON  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
+
+    let isDark = localStorage.getItem('theme') !== 'light';
+    applyTheme();
+
+    function applyTheme() {
+      htmlEl.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      themeBtn.innerHTML = isDark ? MOON_ICON : SUN_ICON;
+    }
+
+    themeBtn.addEventListener('click', () => {
+      isDark = !isDark;
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      applyTheme();
+    });
+
+    // ---- Mobile nav
+    function openMobileNav()  { document.getElementById('mobileNav').classList.add('open'); }
+    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+
+    // ---- Subscribe form
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Subscribed ✓';
+      btn.style.background = 'var(--accent-green)';
+      btn.disabled = true;
+    }
+
+    // ---- Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // stagger children
+          entry.target.querySelectorAll('[style*="--i"]').forEach((child, i) => {
+            child.style.transitionDelay = `${i * 80}ms`;
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // ---- Active nav link
+    const currentPage = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      if (a.getAttribute('href') === currentPage) a.classList.add('active');
+    });
+  </script>
+</body>
+</html>
