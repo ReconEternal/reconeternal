@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Engagements — ReconEternal</title>
+  <meta name="description" content="An anonymised case study from the watchfloor." />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="lockup" href="index.html">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="50" cy="50" r="40"/>
+          <circle cx="50" cy="50" r="22" stroke-dasharray="1.5 4" stroke-opacity="0.55"/>
+          <line x1="50" y1="50" x2="78" y2="22"/>
+          <circle cx="78" cy="22" r="2.8" fill="currentColor" stroke="none"/>
+          <circle cx="50" cy="50" r="1.8" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>RECON<em>eternal</em></span>
+      </a>
+      <ul>
+        <li><a href="services.html">Services</a></li>
+        <li><a class="active" href="engagements.html">Engagements</a></li>
+        <li><a href="firm.html">Firm</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a class="cta" href="brief.html">Brief us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="phero">
+      <div class="crumb">Engagements <span class="amber">/ case study · anonymised</span></div>
+      <h1>A pan-European fintech, <em>nine months under watch.</em></h1>
+    </section>
+
+    <section class="eng-meta">
+      <p class="lede" style="max-width:54ch;">A growth-stage fintech engaged us for continuous reconnaissance after a Series C round. Over nine months we shipped 31 findings — three of which would, in our judgement, have led to a material breach within twelve weeks had they been left in place.</p>
+      <div class="card">
+        <div class="row"><span class="k">Client</span><span>Fintech · Pan-EU · 1,200 staff</span></div>
+        <div class="row"><span class="k">Engagement</span><span>Continuous reconnaissance</span></div>
+        <div class="row"><span class="k">Window</span><span>Mar 2025 — Dec 2025</span></div>
+        <div class="row"><span class="k">Operators</span><span>2 partners · 4 leads</span></div>
+        <div class="row"><span class="k">Findings shipped</span><span>31 (3 critical · 9 high)</span></div>
+      </div>
+    </section>
+
+    <section class="eng-body">
+      <div class="label">Selected<br/>findings</div>
+      <div class="findings">
+        <article class="finding">
+          <span class="sev crit">Critical</span>
+          <div>
+            <h4>Authentication bypass in mobile onboarding</h4>
+            <p>A race condition between the device-attestation step and the KYC submission permitted a crafted client to skip biometric enrolment entirely. Reachable from any unregistered device. Exploited end-to-end in 14 minutes by our operator.</p>
+          </div>
+          <span class="id">RE-25-0117</span>
+        </article>
+
+        <article class="finding">
+          <span class="sev crit">Critical</span>
+          <div>
+            <h4>Vendor SSO trust grants admin to a deprecated portal</h4>
+            <p>A back-office portal believed to be decommissioned was still live behind a vendor SSO. The vendor's tenant was misconfigured to permit any guest invitation to elevate; we obtained an admin session within four hops, none of which involved the client's own systems.</p>
+          </div>
+          <span class="id">RE-25-0244</span>
+        </article>
+
+        <article class="finding">
+          <span class="sev high">High</span>
+          <div>
+            <h4>Sensitive logs reachable via misconfigured CDN rule</h4>
+            <p>A rewrite rule on the public CDN exposed an internal logging endpoint without authentication for a 17-minute window during a deploy. We retained capture of session-bearing cookies for two senior engineers.</p>
+          </div>
+          <span class="id">RE-25-0312</span>
+        </article>
+
+        <article class="finding">
+          <span class="sev high">High</span>
+          <div>
+            <h4>Spear-phish kit modelled on the CFO's signature block</h4>
+            <p>Operators built a credible phishing kit using the CFO's public signature block, internal phrasing harvested from a leaked customer email, and a lookalike domain registered four days prior. Click-through on a controlled test was 19%.</p>
+          </div>
+          <span class="id">RE-25-0388</span>
+        </article>
+
+        <article class="finding">
+          <span class="sev med">Medium</span>
+          <div>
+            <h4>Excess permissions on data-warehouse service account</h4>
+            <p>A reporting service account held write access across all schemas, not the two it required. No exploitation observed; remediated within 48 hours of finding.</p>
+          </div>
+          <span class="id">RE-25-0461</span>
+        </article>
+      </div>
+    </section>
+
+    <footer class="site">
+      <span>© 2026 ReconEternal Ltd.</span>
+      <span class="center">Reconnaissance, made eternal.</span>
+      <span class="right">brief@reconeternal.io · PGP 0xA1F2 9C84</span>
+    </footer>
+  </main>
+
+</body>
+</html>

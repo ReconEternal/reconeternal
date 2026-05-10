@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brief us — ReconEternal</title>
+  <meta name="description" content="Three encrypted channels. One short form." />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="lockup" href="index.html">
+        <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true">
+          <circle cx="50" cy="50" r="40"/>
+          <circle cx="50" cy="50" r="22" stroke-dasharray="1.5 4" stroke-opacity="0.55"/>
+          <line x1="50" y1="50" x2="78" y2="22"/>
+          <circle cx="78" cy="22" r="2.8" fill="currentColor" stroke="none"/>
+          <circle cx="50" cy="50" r="1.8" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>RECON<em>eternal</em></span>
+      </a>
+      <ul>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="engagements.html">Engagements</a></li>
+        <li><a href="firm.html">Firm</a></li>
+        <li><a href="journal.html">Journal</a></li>
+        <li><a class="cta active" href="brief.html">Brief us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="brief">
+      <div class="left">
+        <div class="crumb" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--muted-d);text-transform:uppercase;margin-bottom:22px;">Brief us <span style="color:var(--amber)">/ encrypted intake</span></div>
+        <h1>Tell us what <em>keeps you awake.</em></h1>
+        <p class="copy">Every engagement begins with a 30-minute conversation with a partner. No sales engineer, no junior associate, no NDA before that first call. If we are not the right fit, we will tell you that on the call and recommend two firms who are.</p>
+
+        <div class="channels">
+          <div class="ch">
+            <span class="k">Email</span>
+            <span class="v">brief@reconeternal.io<small>PGP only · key fingerprint below</small></span>
+          </div>
+          <div class="ch">
+            <span class="k">PGP</span>
+            <span class="v">0xA1F2 9C84 ED5B 17B0<small>Full key on /pgp.asc · rotated annually</small></span>
+          </div>
+          <div class="ch">
+            <span class="k">Signal</span>
+            <span class="v">+44 7700 900 142<small>Partner on call · 24h response window</small></span>
+          </div>
+          <div class="ch">
+            <span class="k">In person</span>
+            <span class="v">Berlin · Toronto · Singapore<small>By prior arrangement only</small></span>
+          </div>
+        </div>
+      </div>
+
+      <form class="brief-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Sent. We will be in touch within 24h';">
+        <div class="fhead"><span>Engagement intake</span><span class="amber">5 fields</span></div>
+
+        <div class="field">
+          <label for="org">Organisation</label>
+          <input id="org" name="org" type="text" required placeholder="Legal name or operating name" />
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" required placeholder="First Last" />
+          </div>
+          <div class="field">
+            <label for="role">Your role</label>
+            <input id="role" name="role" type="text" required placeholder="CISO, Head of Sec, Board" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="svc">Engagement type</label>
+          <select id="svc" name="svc" required>
+            <option>Continuous reconnaissance</option>
+            <option>Adversary simulation</option>
+            <option>Threat intelligence</option>
+            <option>Executive advisory</option>
+            <option>Incident companion</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="brief">Briefly, what is on your mind</label>
+          <textarea id="brief" name="brief" rows="3" placeholder="One or two sentences is plenty. We do the rest on the call."></textarea>
+        </div>
+
+        <button type="submit">Send to a partner</button>
+      </form>
+    </section>
+
+    <footer class="site">
+      <span>© 2026 ReconEternal Ltd.</span>
+      <span class="center">Reconnaissance, made eternal.</span>
+      <span class="right">brief@reconeternal.io · PGP 0xA1F2 9C84</span>
+    </footer>
+  </main>
+
+</body>
+</html>
