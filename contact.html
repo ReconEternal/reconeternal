@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact RECON eternal — schedule a discovery call or send us a brief. We respond within 1 business day." />
+  <title>Contact · RECON eternal</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/contact.css" />
+
+  <!-- Prevent theme flash -->
+  <script>
+    (function(){
+      var t = localStorage.getItem('recon-theme');
+      if (t === 'light') document.documentElement.setAttribute('data-theme','light');
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       SITE NAVIGATION
+       ═══════════════════════════════════════ -->
+  <header class="site-nav" role="banner">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="RECON eternal — home">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="16" cy="8"  r="3" fill="var(--accent)" opacity="0.9"/>
+          <circle cx="8"  cy="24" r="3" fill="var(--accent)" opacity="0.6"/>
+          <circle cx="24" cy="24" r="3" fill="var(--accent)" opacity="0.6"/>
+          <circle cx="16" cy="16" r="2" fill="var(--text-3)" opacity="0.5"/>
+          <line x1="16" y1="8"  x2="16" y2="16" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+          <line x1="16" y1="16" x2="8"  y2="24" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+          <line x1="16" y1="16" x2="24" y2="24" stroke="var(--accent)" stroke-width="1" opacity="0.4"/>
+          <line x1="8"  y1="24" x2="24" y2="24" stroke="var(--accent)" stroke-width="1" opacity="0.2"/>
+        </svg>
+        <span class="nav-wordmark">RECON<em>eternal</em></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Engagements</a>
+        <a href="about.html">Firm</a>
+        <a href="contact.html" class="nav-cta">Brief us</a>
+      </nav>
+      <div class="nav-controls">
+        <button class="theme-toggle" aria-label="Switch theme"></button>
+        <button class="nav-hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <nav class="nav-drawer" aria-label="Mobile navigation">
+    <a href="services.html">Services</a>
+    <a href="engagements.html">Engagements</a>
+    <a href="about.html">Firm</a>
+    <a href="contact.html">Brief us →</a>
+  </nav>
+
+  <!-- Meta strip -->
+  <div class="meta-strip" aria-hidden="true">
+    <span><span class="meta-live"></span> ACCEPTING NEW ENGAGEMENTS</span>
+    <span class="meta-mid">RESPONSE WITHIN 1 BUSINESS DAY · NDA AVAILABLE AT FIRST CONTACT</span>
+    <span>contact@reconeternal.com</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       MAIN CONTENT
+       ═══════════════════════════════════════ -->
+  <main class="page-body">
+
+    <!-- ───────────────────────────────────
+         CONTACT HEADER
+         ─────────────────────────────────── -->
+    <section class="contact-header section-sm">
+      <div class="container">
+        <h1 class="contact-headline reveal">
+          Tell us about<br>
+          <em>your situation.</em>
+        </h1>
+        <p class="reveal delay-1">
+          No long forms, no sales calls, no obligation. We read every message personally and respond within one business day. An NDA is available at first contact if you need it before sharing details.
+        </p>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────
+         CONTACT BODY — Form + sidebar
+         ─────────────────────────────────── -->
+    <section class="section-sm" style="padding-top:0;">
+      <div class="container">
+        <div class="contact-body">
+
+          <!-- ── CONTACT FORM ─────────────
+               Configured for Formspree by default.
+               Replace YOUR_FORM_ID in data-action with your Formspree ID.
+               For GitHub Pages, Formspree is the recommended solution.
+               ─────────────────────────────── -->
+          <div class="reveal">
+
+            <!-- Form — action points to Formspree; swap in your form ID -->
+            <form
+              id="contact-form"
+              class="contact-form"
+              data-action="https://formspree.io/f/YOUR_FORM_ID"
+              novalidate
+            >
+
+              <!-- Name + Company fields (side by side) -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="name">Full name *</label>
+                  <input
+                    class="form-input"
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Jane Smith"
+                    required
+                    autocomplete="name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="company">Company</label>
+                  <input
+                    class="form-input"
+                    type="text"
+                    id="company"
+                    name="company"
+                    placeholder="Acme Corp"
+                    autocomplete="organization"
+                  />
+                </div>
+              </div>
+
+              <!-- Email + Phone (side by side) -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="email">Email address *</label>
+                  <input
+                    class="form-input"
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="jane@acme.com"
+                    required
+                    autocomplete="email"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="phone">Phone (optional)</label>
+                  <input
+                    class="form-input"
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="+1 555 000 0000"
+                    autocomplete="tel"
+                  />
+                </div>
+              </div>
+
+              <!-- Service of interest dropdown -->
+              <div class="form-group">
+                <label class="form-label" for="service">Service of interest</label>
+                <div class="select-wrapper">
+                  <select class="form-select" id="service" name="service">
+                    <option value="" disabled selected>Select a service…</option>
+                    <option value="penetration-testing">Penetration Testing</option>
+                    <option value="risk-assessment">Risk &amp; Vulnerability Assessment</option>
+                    <option value="compliance">Compliance Advisory</option>
+                    <option value="incident-response">Incident Response</option>
+                    <option value="cloud-security">Cloud Security Review</option>
+                    <option value="training">Security Awareness Training</option>
+                    <option value="vciso">vCISO Services</option>
+                    <option value="not-sure">Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Brief description textarea -->
+              <div class="form-group">
+                <label class="form-label" for="message">Brief description *</label>
+                <textarea
+                  class="form-textarea"
+                  id="message"
+                  name="message"
+                  placeholder="Tell us about your organisation, the challenge you're facing, or what you'd like us to look at. No need to be technical — a few sentences is fine."
+                  required
+                ></textarea>
+              </div>
+
+              <!-- GDPR / Privacy consent checkbox -->
+              <div class="form-check">
+                <input type="checkbox" id="privacy" name="privacy" required />
+                <label for="privacy">
+                  I agree that RECON eternal may store my submitted information to process this enquiry. Your data is never shared with third parties. See our <a href="#">privacy policy</a>.
+                </label>
+              </div>
+
+              <!-- Submit row -->
+              <div class="form-submit">
+                <button type="submit" class="btn-primary">Send Brief →</button>
+                <span class="form-note">We reply within 1 business day</span>
+              </div>
+
+            </form>
+
+            <!-- Success state (shown by animations.js after submit) -->
+            <div id="form-success" class="form-success">
+              <h3>Brief received.</h3>
+              <p>Thank you — we'll be in touch within one business day. If your situation is urgent, email us directly at <a href="mailto:contact@reconeternal.com" style="color:var(--accent)">contact@reconeternal.com</a>.</p>
+            </div>
+
+          </div>
+
+          <!-- ── CONTACT SIDEBAR ──────────
+               Alternative contact channels + booking
+               ─────────────────────────────── -->
+          <div class="contact-sidebar reveal delay-2">
+
+            <!-- Direct contact details -->
+            <div class="sidebar-block">
+              <h3>Direct contact</h3>
+              <div class="info-row">
+                <span class="info-key">Email</span>
+                <span class="info-val"><a href="mailto:contact@reconeternal.com">contact@reconeternal.com</a></span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Response</span>
+                <span class="info-val">Within 1 business day</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">NDA</span>
+                <span class="info-val">Available at first contact</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">PGP key</span>
+                <span class="info-val"><a href="#">Download public key</a></span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">LinkedIn</span>
+                <span class="info-val"><a href="#">RECON eternal</a></span>
+              </div>
+            </div>
+
+            <!-- Booking CTA (Calendly embed placeholder) -->
+            <div class="booking-cta">
+              <div class="booking-title">Prefer a direct call?</div>
+              <p>Skip the form and book a 30-minute discovery call directly with one of our partners. No prep required.</p>
+              <!-- Replace href with your Calendly or Cal.com link -->
+              <a href="https://calendly.com/reconeternal" target="_blank" rel="noopener" class="btn-ghost" style="width:100%;justify-content:center;">
+                Book a 30-min call →
+              </a>
+            </div>
+
+            <!-- Office locations -->
+            <div class="sidebar-block">
+              <h3>Where we operate</h3>
+              <div class="info-row">
+                <span class="info-key">Berlin</span>
+                <span class="info-val">EU &amp; EMEA engagements</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Toronto</span>
+                <span class="info-val">North America engagements</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Singapore</span>
+                <span class="info-val">APAC engagements</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">Remote</span>
+                <span class="info-val">All engagements available fully remote</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-wordmark">RECON <em>eternal</em></div>
+        <p>Independent cybersecurity consulting. Senior-led. Never subcontracted.</p>
+      </div>
+      <div class="footer-nav">
+        <h4>Navigation</h4>
+        <a href="services.html">Services</a>
+        <a href="engagements.html">Engagements</a>
+        <a href="about.html">The Firm</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <p>Response within 1 business day.</p>
+        <p><a href="mailto:contact@reconeternal.com">contact@reconeternal.com</a></p>
+        <p><a href="#">Schedule a discovery call →</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 RECON eternal. All rights reserved.</p>
+      <p>All engagements conducted under NDA. Results anonymised.</p>
+    </div>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/animations.js"></script>
+
+</body>
+</html>
